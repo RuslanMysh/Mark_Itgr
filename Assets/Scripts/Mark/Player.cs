@@ -66,8 +66,8 @@ public class Player : MonoBehaviour
         //.............................................................
 
         ////////////////////////////////////////
-        float playerRadius = 0.7f;
-        float playerHeught = 2f;
+        float playerRadius = 2f;
+        float playerHeught = 3f;
         ///////////////////////////////////////////
 
         float moveDistance = currentSpeed * Time.deltaTime;

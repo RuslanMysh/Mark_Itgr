@@ -5,54 +5,57 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     GameInput gameInput;
-    
+    [SerializeField]
+    private Transform cameraTransform;
+
+
+
+
+    ////////////////////////////
     [SerializeField]
     private float speed = 10f;
 
     [SerializeField]
     private float runSpeedCof = 1.6f;
-
-
-    [SerializeField]
-    private float rotationSpeed = 10f;
-
-    private Vector3 lastInteractionDir;
-
-    public bool IsWalking { get; private set; }
+    //////////////////////////////////////
+    
 
     //.............................................................
+    public bool IsWalking { get; private set; }
     public bool IsRunning { get; private set; }
     //.............................................................
 
-    
 
 
-    public static Player Instance { get; private set; }
-
-    private void Awake()
-    {
-        Instance = this;
-        if (Instance == null)
-        {
-            Debug.LogError("На уровне больше 1 игрока");
-        }
-
-
-    }
     private void Update()
     {
+
+        
         HandelMovement();
         
     }
 
-
+    //Решение доработано
+    
     private void HandelMovement()
     {
         Vector2 inputVector = gameInput.GetMovementVectorNormalize();
 
-        Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
+        
+        // Берем forward камеры, но обнуляем Y и нормализуем для движения по горизонтали
+        Vector3 cameraForward = cameraTransform.forward;
+        cameraForward.y = 0f;
+        cameraForward.Normalize();
 
+        // Берем right камеры, тоже обнуляем Y
+        Vector3 cameraRight = cameraTransform.right;
+        cameraRight.y = 0f;
+        cameraRight.Normalize();
+
+        // Создаем вектор движения относительно камеры
+        Vector3 moveDir = cameraForward * inputVector.y + cameraRight * inputVector.x;
         IsRunning = gameInput.IsRunning && moveDir != Vector3.zero;
+
 
         //.............................................................
         float currentSpeed = speed; // текущая скорость
@@ -62,30 +65,45 @@ public class Player : MonoBehaviour
         }
         //.............................................................
 
-
+        ////////////////////////////////////////
         float playerRadius = 0.7f;
         float playerHeught = 2f;
+        ///////////////////////////////////////////
 
         float moveDistance = currentSpeed * Time.deltaTime;
+
+
+        //Проверка не уперлись ли мы в объукт
         bool canMove = !Physics.CapsuleCast(transform.position,
             transform.position + Vector3.up * playerHeught, playerRadius,
             moveDir, moveDistance);
+        ////////////////////
 
         IsWalking = moveDir != Vector3.zero;
 
         if (!canMove)
         {
-            Vector3 moveDirX = new Vector3(moveDir.x, 0f, 0f);
+            // Попытка движения только по X относительно камеры
+            Vector3 moveDirX = cameraRight * inputVector.x;
+
+
+            //Проверка не уперлись ли мы в объукт
             canMove = !Physics.CapsuleCast(transform.position,
             transform.position + Vector3.up * playerHeught, playerRadius,
             moveDirX, moveDistance);
+            ////////////////////
             if (canMove)
             {
                 moveDir = moveDirX;
             }
+
             else
             {
-                Vector3 moveDirZ = new Vector3(0f, 0f, moveDir.z);
+                // Попытка движения только по Z относительно камеры
+                Vector3 moveDirZ = cameraForward * inputVector.y;
+
+
+
                 canMove = !Physics.CapsuleCast(transform.position,
                 transform.position + Vector3.up * playerHeught, playerRadius,
                 moveDirZ, moveDistance);
@@ -106,8 +124,9 @@ public class Player : MonoBehaviour
 
         if (moveDir != Vector3.zero)
         {
-            transform.forward = Vector3.Slerp(transform.forward, moveDir, rotationSpeed * Time.deltaTime);
+            transform.forward = Vector3.Slerp(transform.forward, moveDir, 0);
 
         }
     }
+    
 }

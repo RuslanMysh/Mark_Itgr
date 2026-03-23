@@ -11,6 +11,8 @@ public class NPC : MonoBehaviour
     [HideInInspector]
     public Animator Animator;
 
+
+
     public float CurrentSpeed
     {
         get { return Agent.velocity.magnitude; }

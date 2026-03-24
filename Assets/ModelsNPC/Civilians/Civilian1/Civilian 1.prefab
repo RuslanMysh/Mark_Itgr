@@ -379,15 +379,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4380864870085564687}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.7071065, z: -0, w: 0.7071071}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -8.33, y: 0.59, z: 20.13}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalScale: {x: 3.3, y: 3.3, z: 3.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8236684394256215232}
   - {fileID: 3332497435769709588}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!114 &6983495211676901014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,7 +432,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.3
-  m_Speed: 5
+  m_Speed: 6
   m_Acceleration: 3
   avoidancePriority: 50
   m_AngularSpeed: 200
@@ -471,9 +471,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Area: {fileID: 0}
-  MaxWaitTime: 3
-  MaxWaitTimeRandom: 5
-  maxWanderTime: 5
+  MaxWaitTime: 1
+  MaxWaitTimeRandom: 3
+  maxWanderTime: 10
   waitTime: 0
   wanderTime: 0
   State: 0
@@ -758,7 +758,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: af7ab1baf3849954d80a13cb9353d2c1, type: 2}
+  - {fileID: 2100000, guid: 89e4e7102b0e56740a82a88003693652, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

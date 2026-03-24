@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts.meta
 guid: 417d41a7747f2484c98b7dede047fb8b
+========
+guid: 607454aab6080004fba1bf8e5b7fc36f
+>>>>>>>> City:Assets/Textures.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

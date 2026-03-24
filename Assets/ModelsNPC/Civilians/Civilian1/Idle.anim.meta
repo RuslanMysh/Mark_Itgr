@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/ModelsNPC/Civilians/Civilian1/Idle.anim.meta
 guid: c8ff24c0515d6ec44a6ee9c0cf3cdebc
+========
+guid: 85278fef532471543af0228745cd3f9e
+>>>>>>>> City:Assets/Materials/Bush/Material.001.mat.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 7400000

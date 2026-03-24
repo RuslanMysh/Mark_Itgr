@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/ModelsNPC/Civilians/Civilian1/Walking.anim.meta
 guid: 3cb0a37113d58bf46a22beed1f16adf1
+========
+guid: 7d31530fa94e35645a7e223ccfcfb763
+>>>>>>>> City:Assets/Materials/Car 2/M_Wheels.mat.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 7400000

@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/ModelsNPC.meta
 guid: 2292aa891baee8f4d8110b3d6b2f626b
+========
+guid: 45cbe606303cd9f4ba98028d6bda016a
+>>>>>>>> City:Assets/Textures/Road.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

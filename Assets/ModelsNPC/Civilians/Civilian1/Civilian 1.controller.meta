@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/ModelsNPC/Civilians/Civilian1/Civilian 1.controller.meta
 guid: 22ca18052faedcd4eb4f89e63564a1fe
+========
+guid: 2b4c70c3627a03a47b1cee50e4726b82
+>>>>>>>> City:Assets/Materials/Barrel/FinalMat.mat.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 9100000

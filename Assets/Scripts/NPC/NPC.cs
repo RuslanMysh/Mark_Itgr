@@ -12,7 +12,6 @@ public class NPC : MonoBehaviour
     public Animator Animator;
 
 
-
     public float CurrentSpeed
     {
         get { return Agent.velocity.magnitude; }

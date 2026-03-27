@@ -2,6 +2,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.UI.Image;
 
 public class NPCWander : NPCComponent
 {
@@ -18,12 +19,18 @@ public class NPCWander : NPCComponent
     private bool ChasingEnabled = false;
 
     [SerializeField]
+    private float LosePlayerDelay = 0.7f;
+
+    private float LosePlayerTimer;
+
+    [SerializeField]
     private Player Player;
     enum EState
     {
         Wandering,
         Idle,
-        Chasing
+        Chasing,
+        Attacking
     }
 
     [Header("Waiting")]
@@ -80,9 +87,19 @@ public class NPCWander : NPCComponent
 
     private void Update()
     {
+        if (CanSeePlayer())
+        {
+            LosePlayerTimer = LosePlayerDelay;
+        }
+        else
+        {
+            LosePlayerTimer -= Time.deltaTime;
+        }
+
+
         if (ChasingEnabled && CanSeePlayer())
         {
-            if (State != EState.Chasing)
+            if (State != EState.Chasing && State != EState.Attacking)
             {
                 ChangeState(EState.Chasing);
             }
@@ -91,13 +108,18 @@ public class NPCWander : NPCComponent
         else if (State == EState.Chasing)
         {
             ChangeState(EState.Idle);
-            return;
         }
 
+        if (ChasingEnabled && CanSeePlayer() && HasArrived() && State == EState.Chasing)
+        {
+            ChangeState(EState.Attacking);
+        }
 
-
-        
-
+        if (State == EState.Attacking && LosePlayerTimer <= 0f)
+        {           
+            NPC.EndAttacking = true;
+            ChangeState(EState.Idle);           
+        }
 
         if (State == EState.Idle)
         {
@@ -124,6 +146,17 @@ public class NPCWander : NPCComponent
                 ChangeState(EState.Idle);
                 
             }
+        }
+        else if (State == EState.Attacking)
+        {
+            Debug.Log("Атака");
+
+            Vector3 target = Player.transform.position;
+            Vector3 dir = Player.transform.position - transform.position;
+
+            target.y = transform.position.y; // фикс высоты
+
+            transform.LookAt(target);
         }
     }
 
@@ -154,7 +187,11 @@ public class NPCWander : NPCComponent
             ChaseTime = Random.Range(MinChaseTime, MaxChaseTime);
 
         }
-
+        else if (State == EState.Attacking)
+        {
+            NPC.Agent.isStopped = true;
+            NPC.StartAttacking = true;   
+        }
     }
 
     bool HasArrived()
@@ -180,7 +217,7 @@ public class NPCWander : NPCComponent
         }
             
         Vector3 origin = transform.position;
-        Vector3 dir = (Player.transform.position - origin);// вектор направления от NPC к игроку
+        Vector3 dir = Player.transform.position - origin;// вектор направления от NPC к игроку
 
         float distance = dir.magnitude;
 

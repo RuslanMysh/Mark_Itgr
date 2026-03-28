@@ -12,7 +12,10 @@ public class NPCBehavior : NPCComponent
 
     [SerializeField]
     private Player Player;
-
+    [SerializeField]
+    private AudioSource audioSource;
+    [SerializeField]
+    private AudioClip shootSound;
     enum EState
     {
         Wandering,
@@ -254,6 +257,8 @@ public class NPCBehavior : NPCComponent
     }
     public void Shoot()
     {
+        audioSource.PlayOneShot(shootSound);
+
         Vector3 origin = transform.position + transform.forward * 1f;
         Vector3 dir = (Player.transform.position - origin).normalized;
 

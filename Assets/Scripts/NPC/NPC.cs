@@ -8,11 +8,12 @@ public class NPC : MonoBehaviour
     [HideInInspector]
     public NavMeshAgent Agent;
 
-    [HideInInspector]
     public Animator Animator;
 
-
-
+    [HideInInspector]
+    public bool StartAttacking = false;
+    [HideInInspector]
+    public bool EndAttacking = false;
     public float CurrentSpeed
     {
         get { return Agent.velocity.magnitude; }

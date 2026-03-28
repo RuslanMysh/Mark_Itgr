@@ -4,27 +4,15 @@ using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.UI.Image;
 
-public class NPCWander : NPCComponent
+public class NPCBehavior : NPCComponent
 {
     public Area Area;
 
     [SerializeField] private LayerMask layerMask;
 
     [SerializeField]
-    private float ChaseRange = 10f;
-    [SerializeField]
-    private float ChaseAngle = 45f;
-
-    [SerializeField]
-    private bool ChasingEnabled = false;
-
-    [SerializeField]
-    private float LosePlayerDelay = 0.7f;
-
-    private float LosePlayerTimer;
-
-    [SerializeField]
     private Player Player;
+
     enum EState
     {
         Wandering,
@@ -57,6 +45,18 @@ public class NPCWander : NPCComponent
     [SerializeField]
     private float MinChaseTime = 6f;
 
+    [SerializeField]
+    private float ChaseRange = 10f;
+    [SerializeField]
+    private float ChaseAngle = 45f;
+
+    [SerializeField]
+    private bool ChasingEnabled = false;
+
+    [SerializeField]
+    private float LosePlayerDelay = 0.7f;
+
+    private float LosePlayerTimer;
 
     [Header("DebugNPC")]
 
@@ -73,8 +73,7 @@ public class NPCWander : NPCComponent
     EState State = EState.Wandering;
 
     private void Start()
-    {
-        
+    {        
         if (Random.Range(0f, 100f) > 50f)
         {
             ChangeState(EState.Wandering);
@@ -149,7 +148,6 @@ public class NPCWander : NPCComponent
         }
         else if (State == EState.Attacking)
         {
-            Debug.Log("Атака");
 
             Vector3 target = Player.transform.position;
             Vector3 dir = Player.transform.position - transform.position;
@@ -254,5 +252,17 @@ public class NPCWander : NPCComponent
 
         return false;
     }
+    public void Shoot()
+    {
+        Vector3 origin = transform.position + transform.forward * 1f;
+        Vector3 dir = (Player.transform.position - origin).normalized;
 
+        if (Physics.Raycast(origin, dir, out RaycastHit hit, ChaseRange))
+        {
+            if (hit.transform == Player.transform)
+            {
+                Debug.Log("Попадание по игроку");
+            }
+        }
+    }
 }

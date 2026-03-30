@@ -14,12 +14,28 @@ public class Player : MonoBehaviour
     private float gravity = -9.8f;
     private Vector3 playerVelocity;
 
+    public bool IsTake { get; private set; }
     public bool IsWalking { get; private set; }
     public bool IsRunning { get; private set; }
 
     // Параметры для капсулы
     private float playerRadius;
     private float playerHeight;
+
+    [SerializeField] private GameObject visualGameObject;
+    private Gun gun;
+
+
+
+    // ===== ДОБАВЛЕНО: параметры выносливости =====
+    [SerializeField] private float maxStamina = 100f;
+    [SerializeField] private float staminaRegenRate = 15f;    // восстановление в секунду
+    [SerializeField] private float runStaminaCost = 20f;      // расход в секунду при беге
+    [SerializeField] private float jumpStaminaCost = 25f;     // расход за прыжок
+    private float currentStamina;
+    private Vector3 lastMoveDir;
+
+
 
     private void Start()
     {
@@ -32,11 +48,17 @@ public class Player : MonoBehaviour
         // Используем параметры из CharacterController
         playerRadius = characterController.radius;
         playerHeight = characterController.height;
+
+        currentStamina = maxStamina;
+
+        gameInput.OnShotAction += GameInput_OnShotAction;
     }
 
     private void Update()
     {
         HandleMovement();
+        TakeGun();
+        HandleShot();
     }
 
     private void HandleMovement()
@@ -57,9 +79,18 @@ public class Player : MonoBehaviour
         Vector3 moveDir = cameraForward * inputVector.y + cameraRight * inputVector.x;
         moveDir.Normalize();
 
+        lastMoveDir = moveDir;
+
         // Определяем режим движения
         IsRunning = gameInput.IsRunning && moveDir != Vector3.zero;
         float currentSpeed = IsRunning ? speed * runSpeedCof : speed;
+
+        //отключаем бег, если выносливость кончилась 
+        if (IsRunning && currentStamina <= 0f)
+        {
+            currentSpeed = speed;
+        }
+        
         IsWalking = moveDir != Vector3.zero;
 
         // Горизонтальное движение
@@ -72,7 +103,11 @@ public class Player : MonoBehaviour
 
             if (gameInput.IsJump) // Используем GameInput для прыжка
             {
-                playerVelocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
+                if (currentStamina >= jumpStaminaCost)
+                {
+                    playerVelocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
+                    currentStamina -= jumpStaminaCost;
+                }
             }
         }
         else
@@ -91,5 +126,84 @@ public class Player : MonoBehaviour
         {
             transform.forward = Vector3.Slerp(transform.forward, moveDir, 0);
         }
+        UpdateStamina();
     }
+
+    private void UpdateStamina()
+    {
+        // Бег активен, если зажата клавиша бега, есть движение и выносливость > 0
+        bool isRunningActive = IsRunning && currentStamina > 0f;
+
+        if (isRunningActive)
+        {
+            // Расход выносливости
+            currentStamina -= runStaminaCost * Time.deltaTime;
+            if (currentStamina < 0f) currentStamina = 0f;
+        }
+        else if (characterController.isGrounded)
+        {
+            // Восстановление
+            currentStamina += staminaRegenRate * Time.deltaTime;
+            if (currentStamina > maxStamina) currentStamina = maxStamina;
+        }
+    }
+
+
+
+    private void TakeGun()
+    {
+        IsTake = gameInput.IsTake;
+        if (IsTake)
+        {
+            Show();
+        }
+        else
+        {
+            Hide();
+        }
+
+
+    }
+    private void Show()
+    {
+        visualGameObject.SetActive(true);
+    }
+    private void Hide()
+    {
+        visualGameObject.SetActive(false);
+    }
+
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Как дальше пока хз
+
+    private void GameInput_OnShotAction(object sender, System.EventArgs e)
+    {
+
+            gun.Shot();
+    }
+
+    private void SetSelectedNPC()
+    {
+        
+    }
+
+
+
+    private void HandleShot()
+    {
+
+    }
+
+
+
+
+
+
+
+
+
+
 }

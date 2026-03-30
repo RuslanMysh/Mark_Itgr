@@ -13529,7 +13529,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5062663191652845078, guid: 877278b77a0ef9c45b889b9c34176bc6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -125.3
+      value: -124.08
       objectReference: {fileID: 0}
     - target: {fileID: 5062663191652845078, guid: 877278b77a0ef9c45b889b9c34176bc6, type: 3}
       propertyPath: m_LocalPosition.y
@@ -13537,7 +13537,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5062663191652845078, guid: 877278b77a0ef9c45b889b9c34176bc6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.5
+      value: -2.32
       objectReference: {fileID: 0}
     - target: {fileID: 5062663191652845078, guid: 877278b77a0ef9c45b889b9c34176bc6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -13891,6 +13891,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 1461929866}
   speed: 10
   runSpeedCof: 1.6
+  jumpForce: 5
 --- !u!136 &1039394486
 CapsuleCollider:
   m_ObjectHideFlags: 0

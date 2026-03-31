@@ -17226,7 +17226,7 @@ MonoBehaviour:
   shootSound: {fileID: 8300000, guid: 4e67b3b0e95c6b74d83abfd3e126b770, type: 3}
   MaxChaseTime: 15
   MinChaseTime: 6
-  ChaseRange: 30
+  ChaseRange: 35
   ChaseAngle: 270
   LosePlayerDelay: 0.7
   State: 1

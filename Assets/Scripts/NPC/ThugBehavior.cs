@@ -27,6 +27,7 @@ public class ThugBehavior : NPCBehavior
         Attacking
     }
 
+    [SerializeField] EState State = EState.Wandering;
     protected override void Awake()
     {
         base.Awake();

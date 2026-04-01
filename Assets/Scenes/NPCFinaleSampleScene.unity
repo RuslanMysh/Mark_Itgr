@@ -17650,7 +17650,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1
-  Player: {fileID: 0}
+  Player: {fileID: 1936144911}
   audioSource: {fileID: 1138826563}
   shootSound: {fileID: 8300000, guid: 4e67b3b0e95c6b74d83abfd3e126b770, type: 3}
   MaxChaseTime: 15

@@ -1,13 +1,16 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    [Header("Компоненты")]
     [SerializeField] private GameInput gameInput;
     [SerializeField] private Transform cameraTransform;
 
     private CharacterController characterController;
 
+    [Header("Характеристики передвижения")]
     [SerializeField] private float speed = 10f;
     [SerializeField] private float runSpeedCof = 1.6f;
     [SerializeField] private float jumpForce = 5f;
@@ -23,12 +26,13 @@ public class Player : MonoBehaviour
     private float playerRadius;
     private float playerHeight;
 
+    [Header("Пистолет игрока")]
     [SerializeField] private GameObject visualGameObject;
     [SerializeField] private Gun gun;
 
 
 
-    // ===== ДОБАВЛЕНО: параметры выносливости =====
+    [Header("Параметры Выносливости")]
     [SerializeField] private float maxStamina = 100f;
     [SerializeField] private float staminaRegenRate = 15f;    // восстановление в секунду
     [SerializeField] private float runStaminaCost = 20f;      // расход в секунду при беге
@@ -152,8 +156,6 @@ public class Player : MonoBehaviour
         }
     }
 
-
-
     private void TakeGun()
     {
         IsTake = gameInput.IsTake;
@@ -177,12 +179,6 @@ public class Player : MonoBehaviour
         visualGameObject.SetActive(false);
     }
 
-
-
-
-    
-
-
     private void GameInput_OnShot(object sender, EventArgs e)
     {
         if (visualGameObject.activeSelf) // Проверяем, взят ли пистолет
@@ -195,7 +191,7 @@ public class Player : MonoBehaviour
     {
         if (visualGameObject.activeSelf)
         {
-            gun?.Reload();
+           gun?.Reload();
         }
     }
 
@@ -203,8 +199,28 @@ public class Player : MonoBehaviour
 
 
 
+    [Header("Хп персонажа")]
+    [SerializeField] private float health = 50f;
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+
+        Debug.Log("Player HP: " + health);
+
+        if (health <= 0f)
+        {
+            Die();
+        }
+    }
 
 
+    private void Die()
+    {
+        Debug.Log("Вы умерли");
+
+       
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 
 
 

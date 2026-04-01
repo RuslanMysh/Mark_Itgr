@@ -28041,6 +28041,12 @@ MonoBehaviour:
   speed: 10
   runSpeedCof: 1.6
   jumpForce: 5
+  visualGameObject: {fileID: 0}
+  gun: {fileID: 0}
+  maxStamina: 100
+  staminaRegenRate: 15
+  runStaminaCost: 20
+  jumpStaminaCost: 25
 --- !u!4 &1836864726
 Transform:
   m_ObjectHideFlags: 0

@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.U2D;
 
 public class Camera : MonoBehaviour
 {
+   
     public float sensa = 2f;
     public float maxYangle = 85f;
 
@@ -25,6 +27,11 @@ public class Camera : MonoBehaviour
         rotationX -= mouseY*sensa;
         rotationX = Mathf.Clamp(rotationX, -maxYangle, maxYangle);
         transform.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
+
+        
+            
+      
+        
 
     }
 }

@@ -1,8 +1,17 @@
+using System;
 using UnityEngine;
 
 public class GameInput : MonoBehaviour
 {
     private PlayerInputActions inputActions;
+    
+    private bool isTake= false;
+    public bool IsTake => isTake;
+
+
+    public event EventHandler OnShot;
+    public event EventHandler OnReload;
+
 
     //.............................................................
     private bool isRunning = false;
@@ -17,8 +26,14 @@ public class GameInput : MonoBehaviour
     {
         inputActions = new PlayerInputActions();
         inputActions.Player.Enable();
+        inputActions.Gun.Enable();
 
 
+        inputActions.Gun.Shot.performed += context => OnShot?.Invoke(this, EventArgs.Empty);
+        inputActions.Gun.Reload.performed += context => OnReload?.Invoke(this, EventArgs.Empty);
+
+        inputActions.Player.Take.performed += context => isTake = true;
+        inputActions.Player.NoTake.performed += context => isTake = false;
         //.............................................................
         inputActions.Player.Jump.performed += context => isJump = true;
         inputActions.Player.Jump.canceled += context => isJump = false;
@@ -27,7 +42,16 @@ public class GameInput : MonoBehaviour
         inputActions.Player.Sprint.performed += context => isRunning = true;
         inputActions.Player.Sprint.canceled += context => isRunning = false;
         //.............................................................
+
+
+
+
+
+       // inputActions.Gun.Shot.performed += Shot_performed;
     }
+
+
+    
 
 
     public Vector2 GetMovementVectorNormalize()
@@ -41,4 +65,18 @@ public class GameInput : MonoBehaviour
 
         return inputVector;
     }
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+
+
+
+
+    public event EventHandler OnShotAction;
+    //private void Shot_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    //{
+    //    OnShotAction?.Invoke(this, EventArgs.Empty);
+    //}
+
+
 }

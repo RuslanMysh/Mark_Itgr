@@ -32,7 +32,14 @@ public class Gun : MonoBehaviour
             // Длина луча 50
             if (Physics.Raycast(ray, out hit, 50f))
             {
-                Debug.Log($"Попадание в: {hit.collider.gameObject.name}");
+                if (hit.collider == null) return;
+
+                ThugBehavior thug = hit.collider.GetComponentInParent<ThugBehavior>();
+
+                if (thug != null && thug.gameObject != null)
+                {
+                    thug.TakeDamage(10f);
+                }
 
             }
             else

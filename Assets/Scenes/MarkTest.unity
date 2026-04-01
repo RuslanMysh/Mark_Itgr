@@ -182,6 +182,7 @@ MonoBehaviour:
   runSpeedCof: 1.6
   jumpForce: 2.5
   visualGameObject: {fileID: 1716348849}
+  gun: {fileID: 1716348854}
   maxStamina: 100
   staminaRegenRate: 20
   runStaminaCost: 10
@@ -532,6 +533,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameInput: {fileID: 0}
   MaxAmmo: 18
+  playerCamera: {fileID: 1807214040}
 --- !u!1 &1792668006
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -23,7 +24,7 @@ public class Player : MonoBehaviour
     private float playerHeight;
 
     [SerializeField] private GameObject visualGameObject;
-    private Gun gun;
+    [SerializeField] private Gun gun;
 
 
 
@@ -51,14 +52,17 @@ public class Player : MonoBehaviour
 
         currentStamina = maxStamina;
 
-        gameInput.OnShotAction += GameInput_OnShotAction;
+        gameInput.OnShot += GameInput_OnShot;
+        gameInput.OnReload += GameInput_OnReload;
+        
     }
 
     private void Update()
     {
         HandleMovement();
         TakeGun();
-        HandleShot();
+        
+        
     }
 
     private void HandleMovement()
@@ -176,25 +180,23 @@ public class Player : MonoBehaviour
 
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    //Как дальше пока хз
+    
 
-    private void GameInput_OnShotAction(object sender, System.EventArgs e)
+
+    private void GameInput_OnShot(object sender, EventArgs e)
     {
-
-            gun.Shot();
+        if (visualGameObject.activeSelf) // Проверяем, взят ли пистолет
+        {
+            gun?.Shot();
+        }
     }
 
-    private void SetSelectedNPC()
+    private void GameInput_OnReload(object sender, EventArgs e)
     {
-        
-    }
-
-
-
-    private void HandleShot()
-    {
-
+        if (visualGameObject.activeSelf)
+        {
+            gun?.Reload();
+        }
     }
 
 

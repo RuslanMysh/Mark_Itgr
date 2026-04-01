@@ -7,7 +7,11 @@ public class GameInput : MonoBehaviour
     
     private bool isTake= false;
     public bool IsTake => isTake;
-    
+
+
+    public event EventHandler OnShot;
+    public event EventHandler OnReload;
+
 
     //.............................................................
     private bool isRunning = false;
@@ -22,6 +26,11 @@ public class GameInput : MonoBehaviour
     {
         inputActions = new PlayerInputActions();
         inputActions.Player.Enable();
+        inputActions.Gun.Enable();
+
+
+        inputActions.Gun.Shot.performed += context => OnShot?.Invoke(this, EventArgs.Empty);
+        inputActions.Gun.Reload.performed += context => OnReload?.Invoke(this, EventArgs.Empty);
 
         inputActions.Player.Take.performed += context => isTake = true;
         inputActions.Player.NoTake.performed += context => isTake = false;
@@ -38,7 +47,7 @@ public class GameInput : MonoBehaviour
 
 
 
-        inputActions.Gun.Shot.performed += Shot_performed;
+       // inputActions.Gun.Shot.performed += Shot_performed;
     }
 
 
@@ -64,10 +73,10 @@ public class GameInput : MonoBehaviour
 
 
     public event EventHandler OnShotAction;
-    private void Shot_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        OnShotAction?.Invoke(this, EventArgs.Empty);
-    }
+    //private void Shot_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    //{
+    //    OnShotAction?.Invoke(this, EventArgs.Empty);
+    //}
 
 
 }

@@ -217,12 +217,16 @@ public class Player : MonoBehaviour
     // Метод для смерти игрока(это я добавил)
     private void Die()
     {
+        if (gameInput != null)
+        {
+            gameInput.OnShot -= GameInput_OnShot;
+            gameInput.OnReload -= GameInput_OnReload;
+        }
         Debug.Log("Игрок умер");
 
-        // можно отключить управление
-        //enabled = false;
-
-        // или перезапустить сцену
+       
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+
 }

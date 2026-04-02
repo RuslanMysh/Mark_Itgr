@@ -7,6 +7,6 @@ public class NPCComponent : MonoBehaviour
 
     protected virtual void Awake()
     {
-        NPC = GetComponentInParent<NPC>();
+        NPC = GetComponent<NPC>();
     }
 }

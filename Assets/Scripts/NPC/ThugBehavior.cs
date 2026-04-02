@@ -4,14 +4,14 @@ public class ThugBehavior : NPCBehavior
 {
 
 
-    private Rigidbody[] ragdollBodies;
-    private Collider[] ragdollColliders;
+    //private Rigidbody[] ragdollBodies;
+    //private Collider[] ragdollColliders;
 
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private Player Player;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip shootSound;
-    [SerializeField] private float Health = 20f;
+    //[SerializeField] private float Health = 20f;
 
     [Header("Chasing")]
     [SerializeField] private float MaxChaseTime = 15f;
@@ -22,7 +22,7 @@ public class ThugBehavior : NPCBehavior
 
     private float LosePlayerTimer;
     private float ChaseTime;
-    private bool isDead = false;
+    //private bool isDead = false;
 
     private Transform playerTransform;
     enum EState
@@ -41,10 +41,10 @@ public class ThugBehavior : NPCBehavior
     }
     private void Start()
     {
-        ragdollBodies = GetComponentsInChildren<Rigidbody>();
-        ragdollColliders = GetComponentsInChildren<Collider>();
+        //ragdollBodies = GetComponentsInChildren<Rigidbody>();
+        //ragdollColliders = GetComponentsInChildren<Collider>();
 
-        SetRagdoll(false);
+        //SetRagdoll(false);
 
         if (Random.Range(0f, 100f) > 50f)
         {
@@ -58,12 +58,9 @@ public class ThugBehavior : NPCBehavior
             
     }
 
-    private void Update()
+    protected void Update()
     {
-        if (isDead)
-        {
-            return;
-        } 
+        if (IsDead()) return;
 
         bool canSee = CanSeePlayer();
 
@@ -133,6 +130,7 @@ public class ThugBehavior : NPCBehavior
         }
     }
 
+    /*
     void SetRagdoll(bool state)
     {
         foreach (Rigidbody rb in ragdollBodies)
@@ -150,7 +148,7 @@ public class ThugBehavior : NPCBehavior
 
         GetComponent<Animator>().enabled = !state;
     }
-
+    */
     protected override void OnArrived()
     {
         if (State == EState.Wandering)
@@ -224,7 +222,6 @@ public class ThugBehavior : NPCBehavior
 
         if (Physics.Raycast(origin, dir, out RaycastHit hit, ChaseRange))
         {
-            //return hit.transform == Player.transform;
             return hit.transform.GetComponentInParent<Player>() != null;
         }
             
@@ -251,7 +248,7 @@ public class ThugBehavior : NPCBehavior
             }
         }
     }
-
+    /*
     public void TakeDamage(float damage)
     {
         Health -= damage;
@@ -279,4 +276,5 @@ public class ThugBehavior : NPCBehavior
 
         Destroy(gameObject, 10f);
     }
+    */
 }

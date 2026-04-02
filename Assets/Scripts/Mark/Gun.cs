@@ -48,14 +48,14 @@ public class Gun : MonoBehaviour
             {
                 Debug.Log($"Попадание в: {hit.collider.gameObject.name}");
                 if (hit.collider == null) return;
-                /* тут скрипт поведения персонажа, в моей ветке такого нет
-                NPCBehavior npc = hit.transform.GetComponentInParent<NPCBehavior>();
+                
+                NPCBehaviorBase npc = hit.transform.GetComponentInParent<NPCBehaviorBase>();
 
                 if (npc != null && npc.gameObject != null)
                 {
                     npc.TakeDamage(10f);
                 }
-                */
+                
             }
             else
             {

@@ -19,9 +19,11 @@ public class Camera : MonoBehaviour
 
     void Update()
     {
+        if (PauseManager.isPaused) return;
 
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
+
 
         transform.parent.Rotate(Vector3.up * mouseX * sensa);
 

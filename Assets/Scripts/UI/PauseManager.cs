@@ -5,7 +5,7 @@ public class PauseManager : MonoBehaviour
     public GameObject pauseMenuUI;
     public MonoBehaviour playerController;
 
-    private bool isPaused = false;
+    public static bool isPaused = false;
 
     void Update()
     {
@@ -32,6 +32,7 @@ public class PauseManager : MonoBehaviour
 
     void Pause()
     {
+
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;

@@ -3,8 +3,9 @@ using UnityEngine.U2D;
 
 public class Camera : MonoBehaviour
 {
-   
+    [Header("Чуствительность мыши")]
     public float sensa = 2f;
+    [Header("Максимальный угол подъёма камеры")]
     public float maxYangle = 85f;
 
     private float rotationX = 0f;

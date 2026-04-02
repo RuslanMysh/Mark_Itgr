@@ -25,6 +25,8 @@ public class CivilianBehavior : NPCBehavior
 
     private void Update()
     {
+        if (IsDead()) return;
+
         if (State == EState.Idle)
         {
             WaitTime -= Time.deltaTime;

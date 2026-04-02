@@ -34,11 +34,11 @@ public class Gun : MonoBehaviour
             {
                 if (hit.collider == null) return;
 
-                ThugBehavior thug = hit.collider.GetComponentInParent<ThugBehavior>();
+                NPCBehavior npc = hit.transform.GetComponentInParent<NPCBehavior>();
 
-                if (thug != null && thug.gameObject != null)
+                if (npc != null && npc.gameObject != null)
                 {
-                    thug.TakeDamage(10f);
+                    npc.TakeDamage(10f);
                 }
 
             }

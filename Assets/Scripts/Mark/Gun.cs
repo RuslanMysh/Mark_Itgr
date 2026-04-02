@@ -12,14 +12,16 @@ public class Gun : MonoBehaviour
     [Header("Камера игрока")]
     [SerializeField] private Camera playerCamera;
 
+    public int getAmmo() { return Ammo; }
     void Start()
     {
         Ammo = MaxAmmo;
-       
-
+        
+        
         if (playerCamera == null) Debug.LogError("Камера не найдена для стрельбы!");
     }
 
+    
 
 
     public void Shot()
@@ -36,6 +38,7 @@ public class Gun : MonoBehaviour
         {
             shotSound.PlayOneShot(shotClip);
             Ammo--;
+            UIManager.Instance.AmmoT.text = Ammo.ToString();
             // Создаём луч из центра экрана (или из позиции камеры)
             Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
             RaycastHit hit;
@@ -46,11 +49,11 @@ public class Gun : MonoBehaviour
                 Debug.Log($"Попадание в: {hit.collider.gameObject.name}");
                 if (hit.collider == null) return;
                 /* тут скрипт поведения персонажа, в моей ветке такого нет
-                ThugBehavior thug = hit.collider.GetComponentInParent<ThugBehavior>();
+                NPCBehavior npc = hit.transform.GetComponentInParent<NPCBehavior>();
 
-                if (thug != null && thug.gameObject != null)
+                if (npc != null && npc.gameObject != null)
                 {
-                    thug.TakeDamage(10f);
+                    npc.TakeDamage(10f);
                 }
                 */
             }
@@ -86,6 +89,7 @@ public class Gun : MonoBehaviour
 
             StartCoroutine(ReloadCoroutine());
             Ammo = MaxAmmo;
+            UIManager.Instance.AmmoT.text = Ammo.ToString();
         }
         
     }

@@ -173,10 +173,12 @@ public class Player : MonoBehaviour
     private void Show()
     {
         visualGameObject.SetActive(true);
+        UIManager.Instance.AmmoT.text = gun.getAmmo().ToString();
     }
     private void Hide()
     {
         visualGameObject.SetActive(false);
+        UIManager.Instance.AmmoT.text = "";
     }
 
     private void GameInput_OnShot(object sender, EventArgs e)
@@ -191,6 +193,8 @@ public class Player : MonoBehaviour
     {
         if (visualGameObject.activeSelf)
         {
+            //Ghjdthrf ghjcnj
+           //TakeDamage(10);
            gun?.Reload();
         }
     }
@@ -204,7 +208,8 @@ public class Player : MonoBehaviour
     public void TakeDamage(float damage)
     {
         health -= damage;
-
+        UIManager.Instance.HitUI();
+        UIManager.Instance.SetHpValue(health);
         Debug.Log("Player HP: " + health);
 
         if (health <= 0f)
@@ -216,10 +221,18 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log("Вы умерли");
-
-       
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (gameInput != null)
+        {
+            gameInput.OnShot -= GameInput_OnShot;
+            gameInput.OnReload -= GameInput_OnReload;
+        }
+        Debug.Log("Game Over");
+        Time.timeScale = 0;
+        UIManager.Instance.DisablePrUI();
+        UIManager.Instance.EnableDeathUI();
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
 

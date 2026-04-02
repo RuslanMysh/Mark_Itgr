@@ -72,7 +72,7 @@ public class GameInput : MonoBehaviour
 
 
 
-    public event EventHandler OnShotAction;
+    //public event EventHandler OnShotAction;
     //private void Shot_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     //{
     //    OnShotAction?.Invoke(this, EventArgs.Empty);

@@ -2,21 +2,27 @@ using UnityEngine;
 
 public class ThugBehavior : NPCBehavior
 {
+
+
+    //private Rigidbody[] ragdollBodies;
+    //private Collider[] ragdollColliders;
+
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private Player Player;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip shootSound;
+    //[SerializeField] private float Health = 20f;
 
     [Header("Chasing")]
     [SerializeField] private float MaxChaseTime = 15f;
     [SerializeField] private float MinChaseTime = 6f;
-    [SerializeField] private float ChaseRange = 10f;
-    [SerializeField] private float ChaseAngle = 45f;
+    [SerializeField] private float ChaseRange = 35f;
+    [SerializeField] private float ChaseAngle = 270f;
     [SerializeField] private float LosePlayerDelay = 0.7f;
 
     private float LosePlayerTimer;
     private float ChaseTime;
-
+    //private bool isDead = false;
 
     private Transform playerTransform;
     enum EState
@@ -35,6 +41,11 @@ public class ThugBehavior : NPCBehavior
     }
     private void Start()
     {
+        //ragdollBodies = GetComponentsInChildren<Rigidbody>();
+        //ragdollColliders = GetComponentsInChildren<Collider>();
+
+        //SetRagdoll(false);
+
         if (Random.Range(0f, 100f) > 50f)
         {
             ChangeState(EState.Wandering);
@@ -47,10 +58,11 @@ public class ThugBehavior : NPCBehavior
             
     }
 
-    private void Update()
+    protected void Update()
     {
-        bool canSee = CanSeePlayer();
+        if (IsDead()) return;
 
+        bool canSee = CanSeePlayer();
 
         if (canSee)
         {
@@ -117,6 +129,26 @@ public class ThugBehavior : NPCBehavior
             transform.LookAt(target);
         }
     }
+
+    /*
+    void SetRagdoll(bool state)
+    {
+        foreach (Rigidbody rb in ragdollBodies)
+        {
+            rb.isKinematic = !state;
+        }
+
+        foreach (Collider col in ragdollColliders)
+        {
+            if (col.gameObject != gameObject) // не трогаем основной collider
+            {
+                col.enabled = state;
+            }
+        }
+
+        GetComponent<Animator>().enabled = !state;
+    }
+    */
     protected override void OnArrived()
     {
         if (State == EState.Wandering)
@@ -165,10 +197,14 @@ public class ThugBehavior : NPCBehavior
         if (Player == null)
         {
             return false;
-        } 
+        }
 
-        Vector3 origin = transform.position;
-        Vector3 dir = playerTransform.position - origin;
+        Vector3 origin = transform.position + Vector3.up * 1.6f;
+        Vector3 target = playerTransform.position + Vector3.up * 1.0f;
+        Vector3 dir = (target - origin).normalized;
+
+
+
         float sqrDistance = dir.sqrMagnitude;
 
         if (sqrDistance > ChaseRange * ChaseRange)
@@ -184,9 +220,9 @@ public class ThugBehavior : NPCBehavior
             return false;
         } 
 
-        if (Physics.Raycast(origin, dir, out RaycastHit hit, ChaseRange, layerMask))
+        if (Physics.Raycast(origin, dir, out RaycastHit hit, ChaseRange))
         {
-            return hit.transform == Player.transform;
+            return hit.transform.GetComponentInParent<Player>() != null;
         }
             
 
@@ -197,15 +233,48 @@ public class ThugBehavior : NPCBehavior
     {
         audioSource.PlayOneShot(shootSound);
 
-        Vector3 origin = transform.position + transform.forward * 1f;
-        Vector3 dir = (playerTransform.position - origin).normalized;
+        Vector3 origin = transform.position + Vector3.up * 1.6f;
+        Vector3 target = playerTransform.position + Vector3.up * 1.0f;
+        Vector3 dir = (target - origin).normalized;
 
-        if (Physics.Raycast(origin, dir, out RaycastHit hit, ChaseRange))
+        if (Physics.Raycast(origin, dir, out RaycastHit hit, ChaseRange, layerMask))
         {
-            if (hit.transform == Player.transform)
+            Player player = hit.transform.GetComponentInParent<Player>();
+
+            if (player != null)
             {
                 Debug.Log("ѕопадание по игроку");
-            }               
+                player.TakeDamage(10f);
+            }
         }
     }
+    /*
+    public void TakeDamage(float damage)
+    {
+        Health -= damage;
+
+        Debug.Log("NPC HP: " + Health);
+
+        if (Health <= 0f)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        Debug.Log("NPC умер");
+
+        isDead = true;
+
+        NPC.Agent.enabled = false;
+        GetComponent<Animator>().enabled = false;
+
+        GetComponent<Collider>().enabled = false;
+
+        SetRagdoll(true);
+
+        Destroy(gameObject, 10f);
+    }
+    */
 }

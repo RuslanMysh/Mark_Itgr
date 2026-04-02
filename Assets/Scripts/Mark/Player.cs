@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float speed = 10f;
     [SerializeField] private float runSpeedCof = 1.6f;
     [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float health = 50f;
 
     private float gravity = -9.8f;
     private Vector3 playerVelocity;
@@ -199,13 +201,32 @@ public class Player : MonoBehaviour
         }
     }
 
+    // Метод для получения урона(это я добавил)
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
 
+        Debug.Log("Player HP: " + health);
 
+        if (health <= 0f)
+        {
+            Die();
+        }
+    }
 
+    // Метод для смерти игрока(это я добавил)
+    private void Die()
+    {
+        if (gameInput != null)
+        {
+            gameInput.OnShot -= GameInput_OnShot;
+            gameInput.OnReload -= GameInput_OnReload;
+        }
+        Debug.Log("Игрок умер");
 
-
-
-
+       
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 
 
 }

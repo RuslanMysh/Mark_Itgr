@@ -34,7 +34,7 @@ public class Gun : MonoBehaviour
             {
                 if (hit.collider == null) return;
 
-                NPCBehavior npc = hit.transform.GetComponentInParent<NPCBehavior>();
+                NPCBehaviorBase npc = hit.transform.GetComponentInParent<NPCBehaviorBase>();
 
                 if (npc != null && npc.gameObject != null)
                 {

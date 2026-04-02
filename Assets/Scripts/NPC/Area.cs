@@ -20,6 +20,7 @@ public class Area : MonoBehaviour
         NavMeshHit hit;
         Vector3 finalPosition = transform.position;
 
+        //поиск ближайшей точки на NavMesh к randomPoint в радиусе 2 единицы
         if (NavMesh.SamplePosition(randomPoint, out hit, 2f, 1))
         {
             finalPosition = hit.position;

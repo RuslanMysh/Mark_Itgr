@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CivilianBehavior : NPCBehavior
+public class CivilianBehavior : NPCBehaviorBase
 {
     enum EState
     {
@@ -25,7 +25,10 @@ public class CivilianBehavior : NPCBehavior
 
     private void Update()
     {
-        if (IsDead()) return;
+        if (IsDead())
+        {
+            return;
+        } 
 
         if (State == EState.Idle)
         {

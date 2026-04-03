@@ -4,15 +4,16 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    [Header("Компоненты")]
     [SerializeField] private GameInput gameInput;
     [SerializeField] private Transform cameraTransform;
 
     private CharacterController characterController;
 
+    [Header("Характеристики передвижения")]
     [SerializeField] private float speed = 10f;
     [SerializeField] private float runSpeedCof = 1.6f;
     [SerializeField] private float jumpForce = 5f;
-    [SerializeField] private float health = 50f;
 
     private float gravity = -9.8f;
     private Vector3 playerVelocity;
@@ -25,12 +26,13 @@ public class Player : MonoBehaviour
     private float playerRadius;
     private float playerHeight;
 
+    [Header("Пистолет игрока")]
     [SerializeField] private GameObject visualGameObject;
     [SerializeField] private Gun gun;
 
 
 
-    // ===== ДОБАВЛЕНО: параметры выносливости =====
+    [Header("Параметры Выносливости")]
     [SerializeField] private float maxStamina = 100f;
     [SerializeField] private float staminaRegenRate = 15f;    // восстановление в секунду
     [SerializeField] private float runStaminaCost = 20f;      // расход в секунду при беге
@@ -154,8 +156,6 @@ public class Player : MonoBehaviour
         }
     }
 
-
-
     private void TakeGun()
     {
         IsTake = gameInput.IsTake;
@@ -173,17 +173,13 @@ public class Player : MonoBehaviour
     private void Show()
     {
         visualGameObject.SetActive(true);
+        UIManager.Instance.AmmoT.text = gun.getAmmo().ToString();
     }
     private void Hide()
     {
         visualGameObject.SetActive(false);
+        UIManager.Instance.AmmoT.text = "";
     }
-
-
-
-
-    
-
 
     private void GameInput_OnShot(object sender, EventArgs e)
     {
@@ -197,15 +193,23 @@ public class Player : MonoBehaviour
     {
         if (visualGameObject.activeSelf)
         {
-            gun?.Reload();
+            //Ghjdthrf ghjcnj
+           //TakeDamage(10);
+           gun?.Reload();
         }
     }
 
-    // Метод для получения урона(это я добавил)
+
+
+
+
+    [Header("Хп персонажа")]
+    [SerializeField] private float health = 50f;
     public void TakeDamage(float damage)
     {
         health -= damage;
-
+        UIManager.Instance.HitUI();
+        UIManager.Instance.SetHpValue(health);
         Debug.Log("Player HP: " + health);
 
         if (health <= 0f)
@@ -214,7 +218,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Метод для смерти игрока(это я добавил)
+
     private void Die()
     {
         if (gameInput != null)
@@ -222,11 +226,15 @@ public class Player : MonoBehaviour
             gameInput.OnShot -= GameInput_OnShot;
             gameInput.OnReload -= GameInput_OnReload;
         }
-        Debug.Log("Игрок умер");
-
-       
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Debug.Log("Game Over");
+        Time.timeScale = 0;
+        UIManager.Instance.DisablePrUI();
+        UIManager.Instance.EnableDeathUI();
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
 
 
 }

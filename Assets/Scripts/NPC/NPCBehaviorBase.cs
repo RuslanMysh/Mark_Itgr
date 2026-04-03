@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public abstract class NPCBehavior : NPCComponent
+public abstract class NPCBehaviorBase : NPCComponent
 {
     public Area Area;
     private Rigidbody[] ragdollBodies;
@@ -88,6 +88,7 @@ public abstract class NPCBehavior : NPCComponent
     {
         NPC.Agent.isStopped = false;
         NPC.Agent.SetDestination(Area.GetRandomPoint());
+
         WanderTime = Random.Range(MinWanderTime, MaxWanderTime);
         StartArrivalCheck();
     }

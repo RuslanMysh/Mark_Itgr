@@ -1,17 +1,13 @@
 using UnityEngine;
 
-public class ThugBehavior : NPCBehavior
+public class ThugBehavior : NPCBehaviorBase
 {
-
-
-    //private Rigidbody[] ragdollBodies;
-    //private Collider[] ragdollColliders;
 
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private Player Player;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip shootSound;
-    //[SerializeField] private float Health = 20f;
+
 
     [Header("Chasing")]
     [SerializeField] private float MaxChaseTime = 15f;
@@ -22,7 +18,7 @@ public class ThugBehavior : NPCBehavior
 
     private float LosePlayerTimer;
     private float ChaseTime;
-    //private bool isDead = false;
+
 
     private Transform playerTransform;
     enum EState
@@ -41,11 +37,6 @@ public class ThugBehavior : NPCBehavior
     }
     private void Start()
     {
-        //ragdollBodies = GetComponentsInChildren<Rigidbody>();
-        //ragdollColliders = GetComponentsInChildren<Collider>();
-
-        //SetRagdoll(false);
-
         if (Random.Range(0f, 100f) > 50f)
         {
             ChangeState(EState.Wandering);
@@ -129,26 +120,6 @@ public class ThugBehavior : NPCBehavior
             transform.LookAt(target);
         }
     }
-
-    /*
-    void SetRagdoll(bool state)
-    {
-        foreach (Rigidbody rb in ragdollBodies)
-        {
-            rb.isKinematic = !state;
-        }
-
-        foreach (Collider col in ragdollColliders)
-        {
-            if (col.gameObject != gameObject) // не трогаем основной collider
-            {
-                col.enabled = state;
-            }
-        }
-
-        GetComponent<Animator>().enabled = !state;
-    }
-    */
     protected override void OnArrived()
     {
         if (State == EState.Wandering)
@@ -212,7 +183,6 @@ public class ThugBehavior : NPCBehavior
             return false;
         } 
 
-        dir.Normalize();
 
         float angle = Vector3.Angle(transform.forward, dir);
         if (angle > ChaseAngle)
@@ -248,33 +218,4 @@ public class ThugBehavior : NPCBehavior
             }
         }
     }
-    /*
-    public void TakeDamage(float damage)
-    {
-        Health -= damage;
-
-        Debug.Log("NPC HP: " + Health);
-
-        if (Health <= 0f)
-        {
-            Die();
-        }
-    }
-
-    private void Die()
-    {
-        Debug.Log("NPC умер");
-
-        isDead = true;
-
-        NPC.Agent.enabled = false;
-        GetComponent<Animator>().enabled = false;
-
-        GetComponent<Collider>().enabled = false;
-
-        SetRagdoll(true);
-
-        Destroy(gameObject, 10f);
-    }
-    */
 }
